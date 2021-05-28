@@ -1,0 +1,8 @@
+I found a promising data-set.
+
+https://www.bls.gov/cps/cpsaat11.htm
+
+I think this will be an ideal data-set for our project for the following reasons:
+1) Easier to cleanse this data than other data formats (i.e.: interactive maps filled with data, drawings, broad statistics in article form).
+2) Data is pre-organized according to job title, fitting for our theme.
+3) Data is from a reliable source (US Bureau of Labor Statistics).
