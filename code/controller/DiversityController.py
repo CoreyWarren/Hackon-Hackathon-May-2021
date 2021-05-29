@@ -4,7 +4,6 @@
 
 #This program is VC layer using Dash components & cleansed data
 
-#Corey Edit from "corey-dash-edit" branch
 import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
@@ -39,14 +38,21 @@ trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic or Lati
 #APP LAYOUT
 app.layout = html.Div([
     #Take user occupation
-    dcc.Dropdown(id='job-dropdown', options=[
+    dcc.Dropdown(id='job-dropdown', 
+    options=[
         {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
-    ], placeholder='Your Occupation'),    
+        ], 
+    placeholder = 'Please Select Your Occupation',
+    persistence = True,
+    persistence_type = 'local'      #to clear the persistence data on your browser, clear cookies!
+    ),
     #User's gender
     dcc.Dropdown(id='gender-dropdown', options=[
         {'label': 'Male', 'value': GENDER_MALE},
         {'label': 'Female', 'value': GENDER_FEMALE} 
-    ], placeholder='Gender'), 
+        ], 
+    placeholder='Gender'
+    ), 
     #User's race
     dcc.Dropdown(id='race-dropdown', options=[
         {'label': 'White', 'value': RACE_WHITE},
@@ -109,6 +115,7 @@ def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropd
     return True
 
 
+#TABLE OUTPUT
 @app.callback(
     Output('table-container', 'children'),
     [Input('dropdown', 'value')])
@@ -145,7 +152,7 @@ def update_graph(dropdown_value):
 
     return {
         'data': [trace1, trace2, trace3, trace4, trace5],
-        'layout': go.Layout(title='MyTitle', barmode='stack')
+        'layout': go.Layout(title='Job Demographics', barmode='stack')
     }
 
 app.css.append_css({'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'})
