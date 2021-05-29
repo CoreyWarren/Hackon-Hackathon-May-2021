@@ -5,13 +5,15 @@
 #This program is VC layer using Dash components & cleansed data
 
 import dash
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 
 from pandas_datareader import data as web
 from datetime import datetime as dt
+from RecordKeeper import RecordKeeper
+
 
 #Constants
 RACE_WHITE =1 
@@ -23,8 +25,11 @@ GENDER_FEMALE=2
 #Preparing UI
 app = dash.Dash('How diverse is your position?')
 df = pd.read_csv("/home/impadmin/Saurabh/Projects/BasketBall/Corey/cpsaat11_2.csv")
-
+print(df)
 app.layout = html.Div([
+
+    #Header
+    html.H4(children='Diversity in Jobs based on Gender, Race'),
     #Take user occupation
     dcc.Dropdown(id='job-dropdown', options=[
         {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
@@ -46,8 +51,6 @@ app.layout = html.Div([
     #Graph
     dcc.Graph(id='my-graph'),
 
-    #Header
-    html.H4(children='US Occupations'),
     #Reporting Dropdown
     dcc.Dropdown(id='dropdown', options=[
         {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
@@ -72,11 +75,11 @@ def generate_table(dataframe, max_rows=10):
         ]) for i in range(min(len(dataframe), max_rows))]
     )
 
-@app.callback(Output('submit-button', 'disabled'),
-              Input('submit-button-state', 'n_clicks'),
-              Input('job-dropdown', 'value'),
+@app.callback(Output('submit-button', 'children'),
+              [Input('submit-button', 'n_clicks'),
+                  Input('job-dropdown', 'value'),
               Input('gender-dropdown', 'value'),
-              Input('race-dropdown', 'value'))
+              Input('race-dropdown', 'value')])
 def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropdown_value):
     """
     Callback for handling submit action
@@ -84,12 +87,8 @@ def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropd
     # add this record to df 
     #propogate data to parent
     #Store csv
-    print ('''
-        Adding record ,
-        job_dropdown_value  is "{}",
-        ,gender_dropdown_value is "{}"
-        and race_dropdown_value is "{}"
-    ''').format( job_dropdown_value, gender_dropdown_value, race_dropdown_value)
+    RecordKeeper.addRecord(df,gender_dropdown_value,race_dropdown_value,job_dropdown_value)
+    print ( job_dropdown_value+gender_dropdown_value+race_dropdown_value)
     return True
 
 
