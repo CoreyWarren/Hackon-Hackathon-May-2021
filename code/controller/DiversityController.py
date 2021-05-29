@@ -4,6 +4,7 @@
 
 #This program is VC layer using Dash components & cleansed data
 
+#Corey Edit from "corey-dash-edit" branch
 import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
@@ -13,17 +14,29 @@ import pandas as pd
 from pandas_datareader import data as web
 from datetime import datetime as dt
 
+import plotly.graph_objs as go
+
 #Constants
-RACE_WHITE =1 
-RACE_BLACK =2
-RACE_ASIAN =3
-GENDER_MALE =1
+RACE_WHITE = 1 
+RACE_BLACK = 2
+RACE_ASIAN = 3
+RACE_LATINO = 4
+GENDER_MALE = 1
 GENDER_FEMALE=2
 
 #Preparing UI
 app = dash.Dash('How diverse is your position?')
-df = pd.read_csv("/home/impadmin/Saurabh/Projects/BasketBall/Corey/cpsaat11_2.csv")
+df = pd.read_csv("./dataset_original.csv")
 
+#For multiple bar chart data
+trace1 = go.Bar(x=df.index, y=df[('Women')], name='Women')
+trace2 = go.Bar(x=df.index, y=df[('White')], name='White')
+trace3 = go.Bar(x=df.index, y=df[('Black or African American')], name='Black')
+trace4 = go.Bar(x=df.index, y=df[('Asian')], name='Asian')
+trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic or Latino')
+
+
+#APP LAYOUT
 app.layout = html.Div([
     #Take user occupation
     dcc.Dropdown(id='job-dropdown', options=[
@@ -38,11 +51,14 @@ app.layout = html.Div([
     dcc.Dropdown(id='race-dropdown', options=[
         {'label': 'White', 'value': RACE_WHITE},
         {'label': 'Black or African American', 'value': RACE_BLACK},
-        {'label': 'Asian', 'value': RACE_ASIAN}
+        {'label': 'Asian', 'value': RACE_ASIAN},
+        {'label': 'Latino', 'value': RACE_LATINO}
     ], placeholder='Your Race'),
+    
     #Submit Action button
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
     html.Div(id='output-state'),
+    
     #Graph
     dcc.Graph(id='my-graph'),
 
@@ -107,6 +123,8 @@ def display_table(dropdown_value):
     return generate_table(dff,1000)
 
 
+#Line graph
+#id my-graph, populate figure
 @app.callback(Output('my-graph', 'figure'), [Input('dropdown', 'value')])
 def update_graph(dropdown_value):
     """
@@ -115,16 +133,19 @@ def update_graph(dropdown_value):
     #Devise mechanism to grade based on 
     #Grades back to df
     if dropdown_value is None:
+        #if nothing is selected,
+        #do not populate dff
         dff=df
     else:
+        #if there is data, populate
         dff=df.where(df.SN.isin(dropdown_value))
 
+    #trace1 = go.Bar(x=pv.index, y=pv[('Quantity', 'declined'
+
+
     return {
-        'data': [{
-            'x': dff.Occupation,
-            'y': dff.Women
-        }],
-        'layout': {'margin': {'l': 40, 'r': 0, 't': 20, 'b': 30}}
+        'data': [trace1, trace2, trace3, trace4, trace5],
+        'layout': go.Layout(title='MyTitle', barmode='stack')
     }
 
 app.css.append_css({'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'})
