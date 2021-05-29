@@ -39,9 +39,11 @@ trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic or Lati
 #APP LAYOUT
 app.layout = html.Div([
     #Take user occupation
-    dcc.Dropdown(id='job-dropdown', 
-    options=[
-        {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
+    html.Label(['NYC Calls for Animal Rescue']),
+    dcc.Dropdown(
+        id='job-dropdown', 
+        options=[
+            {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
         ], 
     placeholder = 'Please Select Your Occupation',
     persistence = True,
