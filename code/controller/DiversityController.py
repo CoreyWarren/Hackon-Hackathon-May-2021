@@ -13,7 +13,8 @@ import pandas as pd
 from pandas_datareader import data as web
 from datetime import datetime as dt
 
-import plotly.graph_objs as go
+import plotly.graph_objs as go #pip install plotly
+import plotly.express as px 
 
 #Constants
 RACE_WHITE = 1 
@@ -112,6 +113,8 @@ def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropd
         ,gender_dropdown_value is "{}"
         and race_dropdown_value is "{}"
     ''').format( job_dropdown_value, gender_dropdown_value, race_dropdown_value)
+    
+    
     return True
 
 
