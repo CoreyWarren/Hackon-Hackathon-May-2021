@@ -33,13 +33,13 @@ trace1 = go.Bar(x=df.index, y=df[('Women')], name='Women')
 trace2 = go.Bar(x=df.index, y=df[('White')], name='White')
 trace3 = go.Bar(x=df.index, y=df[('Black or African American')], name='Black')
 trace4 = go.Bar(x=df.index, y=df[('Asian')], name='Asian')
-trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic or Latino')
+trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic_or_Latino')
 
 
 #APP LAYOUT
 app.layout = html.Div([
     #Take user occupation
-    html.Label(['NYC Calls for Animal Rescue']),
+    html.Label(['Job Demographics in America Visualized']),
     dcc.Dropdown(
         id='job-dropdown', 
         options=[
@@ -137,9 +137,12 @@ def display_table(dropdown_value):
     return generate_table(dff,1000)
 
 
-#Line graph
-#id my-graph, populate figure
-@app.callback(Output('my-graph', 'figure'), [Input('dropdown', 'value')])
+
+
+#BAR GRAPH DISPLAY
+# (id my-graph, populate figure)
+@app.callback(Output('my-graph', 'figure'), 
+    [Input('dropdown', 'value')])
 def update_graph(dropdown_value):
     """
     Callback to update graph
@@ -149,20 +152,37 @@ def update_graph(dropdown_value):
     if dropdown_value is None:
         #if nothing is selected,
         #do not populate dff
-        dff=df
+        dff=df      #dff is simply a copy of the df
     else:
         #if there is data, populate
+        # populate with data from df where the SN is contained
+        # in dropdown_value
         dff=df.where(df.SN.isin(dropdown_value))
 
-    #trace1 = go.Bar(x=pv.index, y=pv[('Quantity', 'declined'
-
+    
 
     return {
-        'data': [trace1, trace2, trace3, trace4, trace5],
-        'layout': go.Layout(title='Job Demographics', barmode='stack')
+        #'data': [trace1, trace2, trace3, trace4, trace5],
+        'data':
+            [go.Bar(x=dff.index, y=dff[('Women')], name='Women'),
+            go.Bar(x=dff.index, y=dff[('White')], name='White'),
+            go.Bar(x=dff.index, y=dff[('Black or African American')], name='Black'),
+            go.Bar(x=dff.index, y=dff[('Asian')], name='Asian'),
+            go.Bar(x=dff.index, y=dff[('Hispanic or Latino')], name='Hispanic_or_Latino')
+            ],
+        'layout': go.Layout(
+            title='Job Demographics',
+            barmode='stack',
+            barnorm="percent")
     }
 
+
+
+
+
 app.css.append_css({'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'})
+
+
 
 if __name__ == '__main__':
     print("Starting")
