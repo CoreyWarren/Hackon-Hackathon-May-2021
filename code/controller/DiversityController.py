@@ -43,13 +43,15 @@ app.layout = html.Div([
     dcc.Dropdown(
         id='job-dropdown', 
         options=[
-            {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
-        ], 
-    placeholder = 'Please Select Your Occupation',
-    persistence = True,
-    persistence_type = 'local'      #to clear the persistence data on your browser, clear cookies!
-    ),
-    #User's gender
+            {'label': row['Occupation'],    #refers to Occupation Column
+            'value': row['SN']} for index,  #refers to SN (or ID) column of excel sheet
+            row in df.iterrows()
+            ], 
+        placeholder = 'Please Select Your Occupation',
+        persistence = True,
+        persistence_type = 'local'      #to clear the persistence data on your browser, clear cookies!
+        ),
+        #User's gender
     dcc.Dropdown(id='gender-dropdown', options=[
         {'label': 'Male', 'value': GENDER_MALE},
         {'label': 'Female', 'value': GENDER_FEMALE} 
