@@ -14,6 +14,9 @@ from pandas_datareader import data as web
 from datetime import datetime as dt
 from RecordKeeper import RecordKeeper
 
+import plotly.graph_objs as go #pip install plotly
+import plotly.express as px 
+
 
 #Constants
 RACE_WHITE =1 
@@ -24,8 +27,16 @@ GENDER_FEMALE=2
 
 #Preparing UI
 app = dash.Dash('How diverse is your position?')
-df = pd.read_csv("/home/impadmin/Saurabh/Projects/BasketBall/Corey/cpsaat11_2.csv")
+df = pd.read_csv("./dataset_original.csv")
 print(df)
+
+trace1 = go.Bar(x=df.index, y=df[('Women')], name='Women')
+trace2 = go.Bar(x=df.index, y=df[('White')], name='White')
+trace3 = go.Bar(x=df.index, y=df[('Black or African American')], name='Black')
+trace4 = go.Bar(x=df.index, y=df[('Asian')], name='Asian')
+trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic_or_Latino')
+
+
 app.layout = html.Div([
 
     #Header
@@ -119,11 +130,15 @@ def update_graph(dropdown_value):
         dff=df.where(df.SN.isin(dropdown_value))
 
     return {
-        'data': [{
-            'x': dff.Occupation,
-            'y': dff.Women
-        }],
-        'layout': {'margin': {'l': 40, 'r': 0, 't': 20, 'b': 30}}
+        #'data': [trace1, trace2, trace3, trace4, trace5],
+        'data':
+            [go.Bar(x=dff.index, y=dff[('Women')], name='Women')
+            ],
+        'layout': go.Layout(
+            title='Job Demographics',
+            barmode='stack'#,
+            #barnorm="percent"
+            )
     }
 
 app.css.append_css({'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'})
