@@ -9,7 +9,7 @@ import pandas as pd
 class RecordKeeper:
 
 
-    def addRecord(df, gender, race, occupation_id):
+    def addRecord(df, gender, race, occupation_id, source):
         """
         Adds a new record onto df & stores df to csv
         """
@@ -37,10 +37,17 @@ class RecordKeeper:
                 asian_total=((occupation_df['White'].values[0]/100)*total_employed )+1
                 df.loc[df.SN==occupation_id, 'White']= (asian_total/total_employed)*100
             #Write to csv
-            df.to_csv("/home/impadmin/Saurabh/Projects/BasketBall/git/Hackon-Hackathon-May-2021/code/controller/data/a.csv", index = False)
+            df.to_csv(source, index = False)
             #lock.release()
             #Release
             
+    def grade_calculation(occupation_id):
+        occupation_df=df[df.SN==occupation_id]
+        women_percent = occupation_df['Women'].values[0]
+        parent_id= occupation_df['ParentId'].values[0]
+        #df[df.SN==parent_id]
+
+
     #df = pd.read_csv("/home/impadmin/Saurabh/Projects/BasketBall/Corey/cpsaat11_2.csv")
     #print(df)
 

@@ -18,6 +18,8 @@ from RecordKeeper import RecordKeeper
 import plotly.graph_objs as go #pip install plotly
 import plotly.express as px 
 
+#Constants
+SOURCE = '/home/impadmin/Saurabh/Projects/BasketBall/Corey/shlokcsv_1.csv'
 
 #Constants
 RACE_WHITE      = 1 
@@ -29,7 +31,8 @@ GENDER_FEMALE   = 2
 
 #Preparing UI...
 app = dash.Dash('How diverse is your position?')
-df = pd.read_csv("./dataset_original.csv")
+
+df = pd.read_csv(SOURCE)
 print(df)
 
 
@@ -39,7 +42,9 @@ print(df)
 app.layout = html.Div([
 
     #Header
-    html.H4(children='Diversity in Jobs based on Gender, Race'),
+    html.H1(children='Diversity in Jobs based on Gender, Race'),
+    html.H3(children='Howdy, input your details below'),
+
     #Take user occupation
     dcc.Dropdown(id='job-dropdown', options=[
         {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
@@ -53,12 +58,12 @@ app.layout = html.Div([
     dcc.Dropdown(id='race-dropdown', options=[
         {'label': 'White', 'value': RACE_WHITE},
         {'label': 'Black or African American', 'value': RACE_BLACK},
-        {'label': 'Asian', 'value': RACE_ASIAN},
-        {'label': 'Hispanic', 'value': RACE_HISPANIC}
+        {'label': 'Asian', 'value': RACE_ASIAN}
     ], placeholder='Your Race'),
     #Submit Action button
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
     html.Div(id='output-state'),
+    html.H3(children='Lets see how good your job diversity demographics are'),
     #Graph
     dcc.Graph(
         id='my-graph'
@@ -67,7 +72,7 @@ app.layout = html.Div([
     #Reporting Dropdown
     dcc.Dropdown(id='dropdown', options=[
         {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
-    ], multi=True, placeholder='Filter by Occupation'),
+    ], multi=True, placeholder='Search one or more jobs to see'),
     #Reporting Table view
     html.Div(id='table-container')
 #], style={'width': '500'})
@@ -106,9 +111,11 @@ def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropd
     # add this record to df 
     #propogate data to parent
     #Store csv
-    RecordKeeper.addRecord(df,gender_dropdown_value,race_dropdown_value,job_dropdown_value)
-    print ( job_dropdown_value+gender_dropdown_value+race_dropdown_value)
-    return True
+    print(n_clicks)
+    if(job_dropdown_value is not None and gender_dropdown_value  is not None and race_dropdown_value  is not None):
+        RecordKeeper.addRecord(df,gender_dropdown_value,race_dropdown_value,job_dropdown_value, SOURCE)
+        print ( job_dropdown_value+gender_dropdown_value+race_dropdown_value)
+    return 'Submit'
 
 
 
@@ -147,9 +154,9 @@ def update_graph(dropdown_value):
         'data': [
             go.Bar(x=dff.Occupation, y=dff[('Women')], name='Women'),
             go.Bar(x=dff.Occupation, y=dff[('White')], name='White'),
-            go.Bar(x=dff.Occupation, y=dff[('Black or African American')], name='Black or African American'),
+            go.Bar(x=dff.Occupation, y=dff[('BlackorAfricanAmerican')], name='Black or African American'),
             go.Bar(x=dff.Occupation, y=dff[('Asian')], name='Asian'),
-            go.Bar(x=dff.Occupation, y=dff[('Hispanic or Latino')], name='Hispanic or Latino')
+            go.Bar(x=dff.Occupation, y=dff[('HispanicorLatino')], name='Hispanic or Latino')
             ],
         
         'layout': go.Layout(
