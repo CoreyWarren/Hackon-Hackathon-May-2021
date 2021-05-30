@@ -7,13 +7,13 @@ https://github.com/users/CoreyWarren/projects/1
 PRESENTATION:
 https://www.youtube.com/watch?v=nGowhizYK9M
 
-### ./code
+### './code'
 Where all of the code is. The app is all included in "./code/controller/...".
-### ./data
+### './data'
 Various old CSV files which actually are no longer relevant to the app shipped during the Hackathon.
-### ./official-help
+### './official-help'
 Some official documentation from the hackathon. (not ours)
-### ./team-notes
+### './team-notes'
 Notes shared between the team. (Not all, most were shared on Discord)
 
 ## Q: Where is the code?
