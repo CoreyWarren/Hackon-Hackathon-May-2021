@@ -3,6 +3,17 @@
 #Team Basketball
 
 #This program is VC layer using Dash components & cleansed data
+#Corey 5:33/5:48 PM PST <-> 6:02/6:17 AM IST
+#Message:
+# I merged my code with Saurabh's code
+# ->Allows for record keeping code to work
+# ->Updates with user field input in dropdown box
+
+#Known issues:
+# ->General Look is unpolished
+# ->Some data points do not show up because there is no data! Looks confusing.
+#       but at least it does not show incorrect/misleading data when there is no data.
+# ->Grades are not yet implemented.
 
 import dash
 from dash.dependencies import Input, Output, State
@@ -131,13 +142,17 @@ def update_graph(dropdown_value):
 
     return {
         #'data': [trace1, trace2, trace3, trace4, trace5],
-        'data':
-            [go.Bar(x=dff.index, y=dff[('Women')], name='Women')
+        'data': [go.Bar(x=dff.Occupation, y=dff[('Women')], name='Women'),
+            go.Bar(x=dff.Occupation, y=dff[('White')], name='White'),
+            go.Bar(x=dff.Occupation, y=dff[('Black or African American')], name='Black'),
+            go.Bar(x=dff.Occupation, y=dff[('Asian')], name='Asian'),
+            go.Bar(x=dff.Occupation, y=dff[('Hispanic or Latino')], name='Hispanic_or_Latino')
             ],
+        
         'layout': go.Layout(
             title='Job Demographics',
-            barmode='stack'#,
-            #barnorm="percent"
+            barmode='stack',
+            barnorm="percent"
             )
     }
 
