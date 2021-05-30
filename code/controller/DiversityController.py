@@ -1,19 +1,9 @@
 #Dash Processing & Analysis
 #@100rabh.nigam
+#@CoreyWarren
 #Team Basketball
 
 #This program is VC layer using Dash components & cleansed data
-#Corey 5:33/5:48 PM PST <-> 6:02/6:17 AM IST
-#Message:
-# I merged my code with Saurabh's code
-# ->Allows for record keeping code to work
-# ->Updates with user field input in dropdown box
-
-#Known issues:
-# ->General Look is unpolished
-# ->Some data points do not show up because there is no data! Looks confusing.
-#       but at least it does not show incorrect/misleading data when there is no data.
-# ->Grades are not yet implemented.
 
 import dash
 from dash.dependencies import Input, Output, State
@@ -30,24 +20,22 @@ import plotly.express as px
 
 
 #Constants
-RACE_WHITE =1 
-RACE_BLACK =2
-RACE_ASIAN =3
-GENDER_MALE =1
-GENDER_FEMALE=2
+RACE_WHITE      = 1 
+RACE_BLACK      = 2
+RACE_ASIAN      = 3
+GENDER_MALE     = 1
+GENDER_FEMALE   = 2
 
-#Preparing UI
+#Preparing UI...
 app = dash.Dash('How diverse is your position?')
 df = pd.read_csv("./dataset_original.csv")
 print(df)
 
-trace1 = go.Bar(x=df.index, y=df[('Women')], name='Women')
-trace2 = go.Bar(x=df.index, y=df[('White')], name='White')
-trace3 = go.Bar(x=df.index, y=df[('Black or African American')], name='Black')
-trace4 = go.Bar(x=df.index, y=df[('Asian')], name='Asian')
-trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic_or_Latino')
 
 
+
+
+#HTML LAYOUT FOR DASH APP...
 app.layout = html.Div([
 
     #Header
@@ -71,7 +59,9 @@ app.layout = html.Div([
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
     html.Div(id='output-state'),
     #Graph
-    dcc.Graph(id='my-graph'),
+    dcc.Graph(
+        id='my-graph'
+        ),
 
     #Reporting Dropdown
     dcc.Dropdown(id='dropdown', options=[
@@ -79,8 +69,8 @@ app.layout = html.Div([
     ], multi=True, placeholder='Filter by Occupation'),
     #Reporting Table view
     html.Div(id='table-container')
-
-], style={'width': '500'})
+#], style={'width': '500'})
+],  style={'width': '75%', 'margin': 'auto'})
 
 
 def generate_table(dataframe, max_rows=10):
@@ -96,6 +86,9 @@ def generate_table(dataframe, max_rows=10):
             html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
         ]) for i in range(min(len(dataframe), max_rows))]
     )
+
+
+#USER SUBMISSION BUTTON CALLBACK...
 
 @app.callback(Output('submit-button', 'children'),
               [Input('submit-button', 'n_clicks'),
@@ -114,6 +107,9 @@ def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropd
     return True
 
 
+
+#TABLE UPDATING CALLBACK...
+
 @app.callback(
     Output('table-container', 'children'),
     [Input('dropdown', 'value')])
@@ -127,6 +123,9 @@ def display_table(dropdown_value):
     dff = df.where(df.SN.isin(dropdown_value))
     return generate_table(dff,1000)
 
+
+
+#BAR GRAPH UPDATING CALLBACK...
 
 @app.callback(Output('my-graph', 'figure'), [Input('dropdown', 'value')])
 def update_graph(dropdown_value):
@@ -142,7 +141,8 @@ def update_graph(dropdown_value):
 
     return {
         #'data': [trace1, trace2, trace3, trace4, trace5],
-        'data': [go.Bar(x=dff.Occupation, y=dff[('Women')], name='Women'),
+        'data': [
+            go.Bar(x=dff.Occupation, y=dff[('Women')], name='Women'),
             go.Bar(x=dff.Occupation, y=dff[('White')], name='White'),
             go.Bar(x=dff.Occupation, y=dff[('Black or African American')], name='Black'),
             go.Bar(x=dff.Occupation, y=dff[('Asian')], name='Asian'),
@@ -156,8 +156,11 @@ def update_graph(dropdown_value):
             )
     }
 
+#CSS
 app.css.append_css({'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'})
 
+
+#MAIN FUNCTION
 if __name__ == '__main__':
     print("Starting")
     app.run_server()
