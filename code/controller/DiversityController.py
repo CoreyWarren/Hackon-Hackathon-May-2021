@@ -20,7 +20,7 @@ import plotly.express as px
 import plotly.io as plt_io
 
 #Constants
-SOURCE = '/home/impadmin/Saurabh/Projects/BasketBall/Corey/shlokcsv_1.csv'
+SOURCE = './diversity_persistance.csv'
 
 #Constants
 RACE_WHITE      = 1 
