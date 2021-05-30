@@ -28,6 +28,10 @@ The file utilizes these other files:
 
 './code/controller/diversity_persistance.csv'
 
+### You may also need to pip install these libraries:
+
+#### Dash, dash_core_components, pandas, plotly
+
 ## Q: Where is your documentation?
 https://docs.google.com/document/d/1MGS84qhfHjLUTp2XoSV5UMIemFcRQiRA1_pS49b6JRI/edit
 
