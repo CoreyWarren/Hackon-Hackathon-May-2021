@@ -24,7 +24,7 @@ Notes, drawings, and images shared between the team. (Not all, most were shared 
 Run './code/controller/DiversityController.py' with Python.
 
 ## Q: What dependences does the main file have?
-The file utilizes these other files:
+The file utilizes these other files automatically:
 
 './code/controller/RecordKeeper.py'
 
