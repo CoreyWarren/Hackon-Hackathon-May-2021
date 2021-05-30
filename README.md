@@ -18,7 +18,7 @@ Various old CSV files which actually are no longer relevant to the app shipped d
 ### './official-help'
 Some official documentation from the hackathon. (not ours)
 ### './team-notes'
-Notes shared between the team. (Not all, most were shared on Discord)
+Notes, drawings, and images shared between the team. (Not all, most were shared on Discord)
 
 ## Q: Which file do I run?
 Run './code/controller/DiversityController.py' with Python.
