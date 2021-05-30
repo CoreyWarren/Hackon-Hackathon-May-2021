@@ -9,6 +9,8 @@ https://github.com/users/CoreyWarren/projects/1
 PRESENTATION:
 https://www.youtube.com/watch?v=nGowhizYK9M
 
+[![name]https://imgur.com/a/SBk6UkE]
+
 ### './code'
 Where all of the code is. The app is all included in "./code/controller/...".
 ### './data'
