@@ -25,3 +25,6 @@ https://docs.google.com/document/d/1MGS84qhfHjLUTp2XoSV5UMIemFcRQiRA1_pS49b6JRI/
 
 ## Q: How long was the hackathon?
 48 hours, May 27 2021 to May 29 2021, with respect to PST.
+
+## Q: What technologies were used?
+Python, Dash, HTML
