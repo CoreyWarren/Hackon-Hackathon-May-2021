@@ -16,18 +16,15 @@ Some official documentation from the hackathon. (not ours)
 ### './team-notes'
 Notes shared between the team. (Not all, most were shared on Discord)
 
-## Q: Where is the code?
-The code is all in code/controller
-
 ## Q: Which file do I run?
-Run DiversityController.py with Python.
+Run './code/controller/DiversityController.py' with Python.
 
 ## Q: What dependences does the main file have?
 The file utilizes these other files:
 
-RecordKeeper.py
+'./code/controller/RecordKeeper.py'
 
-diversity_persistance.csv
+'./code/controller/diversity_persistance.csv'
 
 ## Q: Where is your documentation?
 https://docs.google.com/document/d/1MGS84qhfHjLUTp2XoSV5UMIemFcRQiRA1_pS49b6JRI/edit
