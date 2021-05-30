@@ -32,7 +32,7 @@ The file utilizes these other files:
 
 #### Dash, dash_core_components, pandas, plotly
 
-## Q: Where is your documentation?
+## Q: Where is your submission documentation?
 https://docs.google.com/document/d/1MGS84qhfHjLUTp2XoSV5UMIemFcRQiRA1_pS49b6JRI/edit
 
 ## Q: How long was the hackathon?
