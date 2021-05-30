@@ -27,6 +27,7 @@ GENDER_FEMALE=2
 
 #Preparing UI
 app = dash.Dash('How diverse is your position?')
+
 df = pd.read_csv("./dataset_original.csv")
 print(df)
 
@@ -35,7 +36,6 @@ trace2 = go.Bar(x=df.index, y=df[('White')], name='White')
 trace3 = go.Bar(x=df.index, y=df[('Black or African American')], name='Black')
 trace4 = go.Bar(x=df.index, y=df[('Asian')], name='Asian')
 trace5 = go.Bar(x=df.index, y=df[('Hispanic or Latino')], name='Hispanic_or_Latino')
-
 
 app.layout = html.Div([
 
