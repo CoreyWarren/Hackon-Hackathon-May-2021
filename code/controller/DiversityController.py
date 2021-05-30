@@ -23,6 +23,7 @@ import plotly.express as px
 RACE_WHITE      = 1 
 RACE_BLACK      = 2
 RACE_ASIAN      = 3
+RACE_HISPANIC   = 4
 GENDER_MALE     = 1
 GENDER_FEMALE   = 2
 
@@ -30,7 +31,6 @@ GENDER_FEMALE   = 2
 app = dash.Dash('How diverse is your position?')
 df = pd.read_csv("./dataset_original.csv")
 print(df)
-
 
 
 
@@ -53,7 +53,8 @@ app.layout = html.Div([
     dcc.Dropdown(id='race-dropdown', options=[
         {'label': 'White', 'value': RACE_WHITE},
         {'label': 'Black or African American', 'value': RACE_BLACK},
-        {'label': 'Asian', 'value': RACE_ASIAN}
+        {'label': 'Asian', 'value': RACE_ASIAN},
+        {'label': 'Hispanic', 'value': RACE_HISPANIC}
     ], placeholder='Your Race'),
     #Submit Action button
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
@@ -73,6 +74,7 @@ app.layout = html.Div([
 ],  style={'width': '75%', 'margin': 'auto'})
 
 
+
 def generate_table(dataframe, max_rows=10):
     """
     Draws a table based on df
@@ -88,13 +90,15 @@ def generate_table(dataframe, max_rows=10):
     )
 
 
+
 #USER SUBMISSION BUTTON CALLBACK...
 
 @app.callback(Output('submit-button', 'children'),
-              [Input('submit-button', 'n_clicks'),
-                  Input('job-dropdown', 'value'),
-              Input('gender-dropdown', 'value'),
-              Input('race-dropdown', 'value')])
+            [Input('submit-button', 'n_clicks'),
+            Input('job-dropdown', 'value'),
+            Input('gender-dropdown', 'value'),
+            Input('race-dropdown', 'value')])
+            
 def update_output(n_clicks, job_dropdown_value, gender_dropdown_value,race_dropdown_value):
     """
     Callback for handling submit action
@@ -140,21 +144,22 @@ def update_graph(dropdown_value):
         dff=df.where(df.SN.isin(dropdown_value))
 
     return {
-        #'data': [trace1, trace2, trace3, trace4, trace5],
         'data': [
             go.Bar(x=dff.Occupation, y=dff[('Women')], name='Women'),
             go.Bar(x=dff.Occupation, y=dff[('White')], name='White'),
-            go.Bar(x=dff.Occupation, y=dff[('Black or African American')], name='Black'),
+            go.Bar(x=dff.Occupation, y=dff[('Black or African American')], name='Black or African American'),
             go.Bar(x=dff.Occupation, y=dff[('Asian')], name='Asian'),
-            go.Bar(x=dff.Occupation, y=dff[('Hispanic or Latino')], name='Hispanic_or_Latino')
+            go.Bar(x=dff.Occupation, y=dff[('Hispanic or Latino')], name='Hispanic or Latino')
             ],
         
         'layout': go.Layout(
-            title='Job Demographics',
-            barmode='stack',
-            barnorm="percent"
+            title='Job Demographics by Percentage',
+            barmode='stack'#,
+            #barnorm="percent"
             )
-    }
+        }
+        
+        
 
 #CSS
 app.css.append_css({'external_url': 'https://codepen.io/chriddyp/pen/bWLwgP.css'})
