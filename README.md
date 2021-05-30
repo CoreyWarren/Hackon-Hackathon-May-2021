@@ -15,7 +15,9 @@ Run DiversityController.py with Python.
 
 ## Q: What dependences does the main file have?
 The file utilizes these other files:
+
 RecordKeeper.py
+
 diversity_persistance.csv
 
 ## Q: Where is your documentation?
