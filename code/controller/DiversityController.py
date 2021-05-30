@@ -10,13 +10,14 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
-
+import dash_bootstrap_components as dbc
 from pandas_datareader import data as web
 from datetime import datetime as dt
 from RecordKeeper import RecordKeeper
 
 import plotly.graph_objs as go #pip install plotly
 import plotly.express as px 
+import plotly.io as plt_io
 
 #Constants
 SOURCE = '/home/impadmin/Saurabh/Projects/BasketBall/Corey/shlokcsv_1.csv'
@@ -30,12 +31,8 @@ GENDER_MALE     = 1
 GENDER_FEMALE   = 2
 
 #Preparing UI...
-app = dash.Dash('How diverse is your position?')
-
+app = dash.Dash('Diversity Distribution by Team basketball',external_stylesheets=[dbc.themes.SPACELAB])
 df = pd.read_csv(SOURCE)
-print(df)
-
-
 
 
 #HTML LAYOUT FOR DASH APP...
@@ -64,19 +61,20 @@ app.layout = html.Div([
     html.Button(id='submit-button', n_clicks=0, children='Submit'),
     html.Div(id='output-state'),
     html.H3(children='Lets see how good your job diversity demographics are'),
-    #Graph
-    dcc.Graph(
-        id='my-graph'
-        ),
 
     #Reporting Dropdown
     dcc.Dropdown(id='dropdown', options=[
         {'label': row['Occupation'], 'value': row['SN']} for index, row in df.iterrows()
     ], multi=True, placeholder='Search one or more jobs to see'),
+    
+    #Graph
+    dcc.Graph(
+        id='my-graph'
+        ),
     #Reporting Table view
     html.Div(id='table-container')
-#], style={'width': '500'})
-],  style={'width': '75%', 'margin': 'auto'})
+    #], style={'width': '500'})
+],  style={'width': '90%', 'margin': 'auto'})
 
 
 
@@ -161,7 +159,10 @@ def update_graph(dropdown_value):
         
         'layout': go.Layout(
             title='Job Demographics by Percentage',
-            barmode='stack'#,
+            barmode='stack',
+            template = 'seaborn',
+            width=1680,
+            height=1000,
             #barnorm="percent"
             )
         }
